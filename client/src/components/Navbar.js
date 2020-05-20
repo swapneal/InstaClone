@@ -30,7 +30,7 @@ const NavBar = () => {
 				// </li>,
 				<li key="5">
 					<button
-						className="btn #c62828 red darken-3"
+						className="btn-small #ff5252 red accent-2 logout"
 						onClick={() => {
 							localStorage.clear();
 							dispatch({ type: 'CLEAR' });
@@ -71,7 +71,7 @@ const NavBar = () => {
 	// };
 	return (
 		<nav>
-			<div className="nav-wrapper white">
+			<div className="nav-wrapper #bbdefb blue lighten-4">
 				<Link to={state ? '/' : '/login'} className="brand-logo left">
 					Instaclone{' '}
 				</Link>

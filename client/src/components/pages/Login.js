@@ -31,10 +31,10 @@ const Login = () => {
 				if (data.error) {
 					M.toast({ html: data.error, classes: '#c62828 red darken-3' });
 				} else {
-					localStorage.setItem('jwt', data.token);
-					localStorage.setItem('user', JSON.stringify(data.user));
+					localStorage.setItem('token', data.payload.token);
+					localStorage.setItem('user', JSON.stringify(data.payload.user));
 					dispatch({ type: 'USER', payload: data.user });
-					M.toast({ html: 'signedin success', classes: '#43a047 green darken-1' });
+					M.toast({ html: 'signedin success', classes: '#a5d6a7 green lighten-3' });
 					history.push('/');
 				}
 			})
@@ -43,13 +43,13 @@ const Login = () => {
 			});
 	};
 	return (
-		<div className="mycard">
-			<div className="card auth-card input-field">
+		<div className="mycard ">
+			<div className="card auth-card input-field #e3f2fd blue lighten-5">
 				<h2>Instaclone</h2>
-				<input type="text" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+				<input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
 				<input
 					type="password"
-					placeholder="password"
+					placeholder="Password"
 					value={password}
 					onChange={(e) => setPasword(e.target.value)}
 				/>

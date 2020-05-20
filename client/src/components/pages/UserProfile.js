@@ -25,7 +25,7 @@ const Login = () => {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				setUrl(data.url);
+	//			setUrl(data.imageUrl);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -49,7 +49,7 @@ const Login = () => {
 				name,
 				password,
 				email,
-				pic: url,
+				//		pic: url,
 			}),
 		})
 			.then((res) => res.json())

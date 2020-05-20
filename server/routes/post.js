@@ -29,8 +29,8 @@ router.get('/all', requireLogin, (req, res) => {
 //@description Creating Post
 //access Public
 router.post('/posts', requireLogin, (req, res) => {
-	const { title, desc, url } = req.body;
-	if (!title || !desc || !url) {
+	const { title, desc, imageUrl } = req.body;
+	if (!title || !desc || !imageUrl) {
 		return res.status(422).json({
 			success: false,
 			error: 'Please enter all the required fields',
@@ -40,7 +40,7 @@ router.post('/posts', requireLogin, (req, res) => {
 	const post = new Post({
 		title,
 		desc,
-		imageUrl: url,
+		imageUrl,
 		postedBy: req.user,
 	});
 	post.save()
@@ -154,11 +154,12 @@ router.delete('/deletepost/:postId', requireLogin, (req, res) => {
 				return res.status(422).json({ error: `Delete Post failed ${err}` });
 			}
 			if (result.postedBy._id.toString() === req.user._id.toString()) {
-				result.remove().then((delPost) => {
-					res.status(200)
-						.json(delPost)
-						.catch((err) => console.log(`Error in delete post route: ${err}`));
-				});
+				result
+					.remove()
+					.then((delPost) => {
+						res.status(200).json(delPost);
+					})
+					.catch((err) => console.log(`Error in delete post route: ${err}`));
 			}
 		});
 });
