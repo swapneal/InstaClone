@@ -1,0 +1,19 @@
+{
+	"name": "server",
+	"version": "1.0.0",
+	"description": "Backend for Instragram Clone",
+	"main": "server.js",
+	"scripts": {
+		"start": "node server.js",
+		"server": "nodemon server.js"
+	},
+	"author": "Swapnil Ranjit",
+	"license": "MIT",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"express": "^4.17.1",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^5.9.14",
+		"nodemon": "^2.0.4"
+	}
+}
