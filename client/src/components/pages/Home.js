@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../../App';
 import Spinner from './Spinner/Spinner';
 import M from 'materialize-css';
+import '../styles/home.css';
 
 const Home = () => {
 	const [data, setData] = useState([]);
@@ -16,6 +17,12 @@ const Home = () => {
 			.then((res) => res.json())
 			.then((result) => {
 				setData(result.posts);
+			})
+			.catch((err) => {
+				console.log(`Error in Home use effect getting all posts => ${err}`);
+			})
+			.catch((err) => {
+				console.log(`Error in Home use effect getting all posts => ${err}`);
 			});
 	}, []);
 
@@ -24,7 +31,7 @@ const Home = () => {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+				Authorization: 'Bearer ' + localStorage.getItem('token'),
 			},
 			body: JSON.stringify({
 				postId: id,
@@ -42,7 +49,10 @@ const Home = () => {
 				setData(newData);
 			})
 			.catch((err) => {
-				console.log(err);
+				console.log(`Error in Home like post => ${err}`);
+			})
+			.catch((err) => {
+				console.log(`Error in Home like post => ${err}`);
 			});
 	};
 	const unlikePost = (id) => {
@@ -50,7 +60,7 @@ const Home = () => {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+				Authorization: 'Bearer ' + localStorage.getItem('token'),
 			},
 			body: JSON.stringify({
 				postId: id,
@@ -68,7 +78,10 @@ const Home = () => {
 				setData(newData);
 			})
 			.catch((err) => {
-				console.log(err);
+				console.log(`Error in Home unlike => ${err}`);
+			})
+			.catch((err) => {
+				console.log(`Error in Home unlike => ${err}`);
 			});
 	};
 
@@ -77,7 +90,7 @@ const Home = () => {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+				Authorization: 'Bearer ' + localStorage.getItem('token'),
 			},
 			body: JSON.stringify({
 				postId,
@@ -96,7 +109,10 @@ const Home = () => {
 				setData(newData);
 			})
 			.catch((err) => {
-				console.log(err);
+				console.log(`Error in Home comment => ${err}`);
+			})
+			.catch((err) => {
+				console.log(`Error in Home comment => ${err}`);
 			});
 	};
 
@@ -114,6 +130,12 @@ const Home = () => {
 				});
 				setData(newData);
 				M.toast({ html: 'Post delete Successful', classes: '#a5d6a7 green lighten-3' });
+			})
+			.catch((err) => {
+				console.log(`Error in Home delete post => ${err}`);
+			})
+			.catch((err) => {
+				console.log(`Error in Home delete post => ${err}`);
 			});
 	};
 
@@ -125,7 +147,7 @@ const Home = () => {
 				data.map((item) => {
 					return (
 						<div className="card home-card #e3f2fd blue lighten-5" key={item._id}>
-							<h5 style={{ padding: '5px' }}>
+							<h5 className="profile-name">
 								<Link
 									to={item.postedBy._id !== state.id ? `/profile/${item.postedBy._id}` : `/profile`}
 								>
@@ -148,7 +170,7 @@ const Home = () => {
 											unlikePost(item._id);
 										}}
 									>
-										favorite_border
+										favorite
 									</i>
 								) : (
 									<i
@@ -157,17 +179,18 @@ const Home = () => {
 											likePost(item._id);
 										}}
 									>
-										favorite
+										favorite_border
 									</i>
 								)}
-								<h6>{item.likes.length} likes</h6>
+								<h6>
+									{item.likes.length} like{item.likes.length === 1 ? '' : 's'}
+								</h6>
 								<h6>{item.title}</h6>
 								<p>{item.body}</p>
 								{item.comments.map((record) => {
 									return (
 										<h6 key={record._id}>
-											<span style={{ fontWeight: '500' }}>{record.postedBy.name}</span>{' '}
-											{record.text}
+											<span className="comment-name">{record.postedBy.name}</span> {record.text}
 										</h6>
 									);
 								})}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../App';
+import Spinner from './Spinner/Spinner';
 
 const Profile = () => {
 	const [mypics, setPics] = useState([]);
@@ -13,9 +14,10 @@ const Profile = () => {
 		})
 			.then((res) => res.json())
 			.then((result) => {
-				console.log(result);
 				setPics(result.posts);
-			});
+			})
+			.catch((err) => console.log(`Error in Profile loading ${err}`))
+			.catch((err) => console.log(`Error in Profile loading ${err}`));
 	}, []);
 	// useEffect(() => {
 	//   if (image) {
@@ -56,55 +58,66 @@ const Profile = () => {
 	};
 	return (
 		<div style={{ maxWidth: '550px', margin: '0px auto' }}>
-			<div
-				style={{
-					margin: '18px 0px',
-					borderBottom: '1px solid grey',
-				}}
-			>
-				<div
-					style={{
-						display: 'flex',
-						justifyContent: 'space-around',
-					}}
-				>
-					<div>
-						<img
-							style={{ width: '160px', height: '160px', borderRadius: '80px' }}
-							src={state ? state.pic : 'loading'}
-						/>
-					</div>
-					<div>
-						<h4>{state ? state.name : 'loading'}</h4>
-						<h5>{state ? state.email : 'loading'}</h5>
-						<div style={{ display: 'flex', justifyContent: 'space-between', width: '108%' }}>
-							<h6>{mypics.length} posts</h6>
-							<h6>{state ? state.followers.length : '0'} followers</h6>
-							<h6>{state ? state.following.length : '0'} following</h6>
+			{state === null ? (
+				<Spinner />
+			) : (
+				<>
+					<div
+						style={{
+							margin: '18px 0px',
+							borderBottom: '1px solid grey',
+						}}
+					>
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'space-around',
+							}}
+						>
+							<div>
+								<img
+									style={{ width: '160px', height: '160px', borderRadius: '80px' }}
+									src={state ? state.pic : 'loading'}
+								/>
+							</div>
+							<div>
+								<h4>{state ? state.name : 'loading'}</h4>
+								<h5>{state ? state.email : 'loading'}</h5>
+								<div style={{ display: 'flex', justifyContent: 'space-between', width: '108%' }}>
+									{/* <h6>
+										{mypics.length} post{mypics.length === 1 ? '' : 's'}
+									</h6> 
+								  <h6>
+										{state ? state.followers.length : '0'} follower
+										{state.followers.length === 1 ? '' : 's'}
+									</h6>
+									<h6>{state ? state.following.length : '0'} following</h6> */}
+								</div>
+							</div>
+						</div>
+
+						<div className="file-field input-field" style={{ margin: '10px' }}>
+							<div className="btn #64b5f6 blue darken-1">
+								<i
+									className="material-icons small
+						"
+								>
+									add_a_photo
+								</i>
+								<input type="file" onChange={(e) => updatePhoto(e.target.files[0])} />
+							</div>
+							<div className="file-path-wrapper">
+								<input className="file-path validate" type="text" />
+							</div>
 						</div>
 					</div>
-				</div>
-
-				<div className="file-field input-field" style={{ margin: '10px' }}>
-					<div className="btn #64b5f6 blue darken-1">
-						<i
-							className="material-icons small
-						"
-						>
-							add_a_photo
-						</i>
-						<input type="file" onChange={(e) => updatePhoto(e.target.files[0])} />
+					<div className="gallery">
+						{mypics.map((item) => {
+							return <img key={item._id} className="item" src={item.photo} alt={item.title} />;
+						})}
 					</div>
-					<div className="file-path-wrapper">
-						<input className="file-path validate" type="text" />
-					</div>
-				</div>
-			</div>
-			<div className="gallery">
-				{mypics.map((item) => {
-					return <img key={item._id} className="item" src={item.photo} alt={item.title} />;
-				})}
-			</div>
+				</>
+			)}
 		</div>
 	);
 };

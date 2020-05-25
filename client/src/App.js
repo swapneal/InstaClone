@@ -25,7 +25,7 @@ const Routing = () => {
 		if (user) {
 			dispatch({ type: 'USER', payload: user });
 		} else {
-			if (!history.location.pathname.startsWith('/reset')) history.push('/signin');
+			if (!history.location.pathname.startsWith('/reset')) history.push('/login');
 		}
 	}, []);
 	return (

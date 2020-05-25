@@ -33,7 +33,7 @@ const Login = () => {
 				} else {
 					localStorage.setItem('token', data.payload.token);
 					localStorage.setItem('user', JSON.stringify(data.payload.user));
-					dispatch({ type: 'USER', payload: data.user });
+					dispatch({ type: 'USER', payload: data.payload.user });
 					M.toast({ html: 'signedin success', classes: '#a5d6a7 green lighten-3' });
 					history.push('/');
 				}

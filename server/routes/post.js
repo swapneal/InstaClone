@@ -45,6 +45,7 @@ router.post('/posts', requireLogin, (req, res) => {
 	});
 	post.save()
 		.then((result) => {
+			console.log(result);
 			res.status(200).json({
 				success: true,
 				payload: result,
