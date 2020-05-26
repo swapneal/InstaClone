@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../App';
 import Spinner from './Spinner/Spinner';
+import '../styles/profile.css';
 
 const Profile = () => {
-	const [mypics, setPics] = useState([]);
+	const [pics, setPics] = useState([]);
 	const { state, dispatch } = useContext(UserContext);
 	const [image, setImage] = useState('');
 	useEffect(() => {
@@ -15,6 +16,7 @@ const Profile = () => {
 			.then((res) => res.json())
 			.then((result) => {
 				setPics(result.posts);
+				console.log('profile api call ==>>   ', result);
 			})
 			.catch((err) => console.log(`Error in Profile loading ${err}`))
 			.catch((err) => console.log(`Error in Profile loading ${err}`));
@@ -83,15 +85,22 @@ const Profile = () => {
 							<div>
 								<h4>{state ? state.name : 'loading'}</h4>
 								<h5>{state ? state.email : 'loading'}</h5>
-								<div style={{ display: 'flex', justifyContent: 'space-between', width: '108%' }}>
-									{/* <h6>
-										{mypics.length} post{mypics.length === 1 ? '' : 's'}
-									</h6> 
-								  <h6>
-										{state ? state.followers.length : '0'} follower
-										{state.followers.length === 1 ? '' : 's'}
+								<div className="profile-info">
+									{console.log('PICS from profile ===>>    ', pics)}
+									<h6>
+										{/* {mypics.length} */}
+										post
+										{/* {mypics.length === 1 ? '' : 's'} */}
 									</h6>
-									<h6>{state ? state.following.length : '0'} following</h6> */}
+									<h6>
+										{/* {state ? state.followers.length : '0'}  */}
+										follower
+										{/* {state.followers.length === 1 ? '' : 's'} */}
+									</h6>
+									<h6>
+										{/* {state ? state.following.length : '0'} */}
+										following
+									</h6>
 								</div>
 							</div>
 						</div>
@@ -112,7 +121,7 @@ const Profile = () => {
 						</div>
 					</div>
 					<div className="gallery">
-						{mypics.map((item) => {
+						{pics.map((item) => {
 							return <img key={item._id} className="item" src={item.photo} alt={item.title} />;
 						})}
 					</div>

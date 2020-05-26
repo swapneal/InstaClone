@@ -147,7 +147,7 @@ const Home = () => {
 				data.map((item) => {
 					return (
 						<div className="card home-card #e3f2fd blue lighten-5" key={item._id}>
-							<h5 className="profile-name">
+							<h5 className="profile-name user-name">
 								<Link
 									to={item.postedBy._id !== state.id ? `/profile/${item.postedBy._id}` : `/profile`}
 								>

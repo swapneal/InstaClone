@@ -1,0 +1,29 @@
+.user-name {
+	margin-left: 10px;
+}
+
+.profile-border {
+	display: 'flex';
+	justify-content: 'space-around';
+}
+
+.profile-header-info {
+	display: 'flex';
+	justify-content: 'space-around';
+}
+
+.profile-info {
+	display: 'flex';
+	justify-content: 'space-between';
+	width: '108%';
+}
+
+.profile-pic {
+	width: '160px';
+	height: '160px';
+	border-radius: '80px';
+}
+
+.photo-add {
+	margin: '10px';
+}
