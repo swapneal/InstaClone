@@ -6,17 +6,17 @@ import '../styles/profile.css';
 const Profile = () => {
 	const [pics, setPics] = useState([]);
 	const { state, dispatch } = useContext(UserContext);
-	const [image, setImage] = useState('');
+	//	const [image, setImage] = useState('');
 	useEffect(() => {
-		fetch('/posts', {
+		fetch('/profile', {
 			headers: {
 				Authorization: 'Bearer ' + localStorage.getItem('token'),
 			},
 		})
 			.then((res) => res.json())
 			.then((result) => {
-				setPics(result.posts);
-				console.log('profile api call ==>>   ', result);
+				console.log('profile api call ==>>   ', result.payload);
+				setPics(result.payload);
 			})
 			.catch((err) => console.log(`Error in Profile loading ${err}`))
 			.catch((err) => console.log(`Error in Profile loading ${err}`));
@@ -55,9 +55,9 @@ const Profile = () => {
 	//       })
 	//   }
 	// }, [image])
-	const updatePhoto = (file) => {
-		setImage(file);
-	};
+	// const updatePhoto = (file) => {
+	// 	setImage(file);
+	// };
 	return (
 		<div style={{ maxWidth: '550px', margin: '0px auto' }}>
 			{state === null ? (
@@ -86,11 +86,8 @@ const Profile = () => {
 								<h4>{state ? state.name : 'loading'}</h4>
 								<h5>{state ? state.email : 'loading'}</h5>
 								<div className="profile-info">
-									{console.log('PICS from profile ===>>    ', pics)}
 									<h6>
-										{/* {mypics.length} */}
-										post
-										{/* {mypics.length === 1 ? '' : 's'} */}
+										{pics.length} post{pics.length === 1 ? '' : 's'}
 									</h6>
 									<h6>
 										{/* {state ? state.followers.length : '0'}  */}
@@ -113,7 +110,7 @@ const Profile = () => {
 								>
 									add_a_photo
 								</i>
-								<input type="file" onChange={(e) => updatePhoto(e.target.files[0])} />
+								{/* <input type="file" onChange={(e) => updatePhoto(e.target.files[0])} /> */}
 							</div>
 							<div className="file-path-wrapper">
 								<input className="file-path validate" type="text" />
@@ -122,7 +119,7 @@ const Profile = () => {
 					</div>
 					<div className="gallery">
 						{pics.map((item) => {
-							return <img key={item._id} className="item" src={item.photo} alt={item.title} />;
+							return <img key={item._id} className="item" src={item.imageUrl} alt={item.title} />;
 						})}
 					</div>
 				</>
