@@ -15,7 +15,6 @@ const Profile = () => {
 		})
 			.then((res) => res.json())
 			.then((result) => {
-				console.log('profile api call ==>>   ', result.payload);
 				setPics(result.payload);
 			})
 			.catch((err) => console.log(`Error in Profile loading ${err}`))

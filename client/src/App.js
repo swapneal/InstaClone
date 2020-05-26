@@ -45,7 +45,7 @@ const Routing = () => {
 			<Route path="/create">
 				<CreatePost />
 			</Route>
-			<Route path="/profile/:userid">
+			<Route path="/profile/:profileId">
 				<UserProfile />
 			</Route>
 			{/* <Route path="/myfollowingpost">
