@@ -27,9 +27,58 @@ router.get('/profile/:id', requireLogin, (req, res) => {
 		});
 });
 
-router.put('/follow', (req, res) => {
-	User.findByIdAndUpdate
-})
+router.put('/follow', requireLogin, (req, res) => {
+	User.findByIdAndUpdate(
+		req.body.followId,
+		{
+			$push: { followers: req.user.id },
+		},
+		{ new: true },
+		(err, result) => {
+			if (err) {
+				return res.status(422).json({ error: `Error occured in follow model ==> ${err}` });
+			}
+			User.findByIdAndUpdate(
+				req.user.id,
+				{
+					$push: { following: req.body.followId },
+				},
+				{ new: true }
+			)
+				.select('-password')
+				.then((result) => res.json(result))
+				.catch((err) => {
+					return res.status(422).json({ error: `Error occured in follow model ==> ${err}` });
+				});
+		}
+	);
+});
 
+router.put('/unfollow', requireLogin, (req, res) => {
+	User.findByIdAndUpdate(
+		req.body.unfollowId,
+		{
+			$pull: { followers: req.user.id },
+		},
+		{ new: true },
+		(err, result) => {
+			if (err) {
+				return res.status(422).json({ error: `Error occured in unfollow model ==> ${err}` });
+			}
+			User.findByIdAndUpdate(
+				req.user.id,
+				{
+					$pull: { following: req.body.unfollowId },
+				},
+				{ new: true }
+			)
+				.select('-password')
+				.then((result) => res.json(result))
+				.catch((err) => {
+					return res.status(422).json({ error: `Error occured in unfollow model ==> ${err}` });
+				});
+		}
+	);
+});
 
 module.exports = router;

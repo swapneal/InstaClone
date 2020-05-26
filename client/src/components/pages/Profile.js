@@ -88,12 +88,11 @@ const Profile = () => {
 									<h6>
 										{pics.length} post{pics.length === 1 ? '' : 's'}
 									</h6>
-									{console.log(state)}
-									{/* <h6>
-										{state ? state.payload.followers.length : '0'} follower
-										{state.payload.followers.length === 1 ? '' : 's'}
+									<h6>
+										{state ? state.followers.length : '0'} follower
+										{state.followers.length === 1 ? '' : 's'}
 									</h6>
-									<h6>{state ? state.payload.following.length : '0'} following</h6> */}
+									<h6>{state ? state.following.length : '0'} following</h6>
 								</div>
 							</div>
 						</div>

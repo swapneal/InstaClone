@@ -20,14 +20,14 @@ const NavBar = () => {
 				// 	</i>
 				// </li>,
 				<li key="2">
-					<Link to="/profile">Profile</Link>
+					<Link to="/new">Create Post</Link>
 				</li>,
 				<li key="3">
-					<Link to="/create">Create Post</Link>
+					<Link to="/profile">Profile</Link>
 				</li>,
-				// <li key="4">
-				// 	<Link to="/myfollowingpost">My following Posts</Link>
-				// </li>,
+				<li key="4">
+					<Link to="/following">Following</Link>
+				</li>,
 				<li key="5">
 					<button
 						className="btn-small #ff5252 red accent-2 logout"

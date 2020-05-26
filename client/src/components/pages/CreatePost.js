@@ -9,7 +9,7 @@ const CreatePost = () => {
 	const [imageUrl, setImageUrl] = useState('');
 	useEffect(() => {
 		if (imageUrl) {
-			fetch('/posts', {
+			fetch('/newpost', {
 				method: 'post',
 				headers: {
 					'Content-Type': 'application/json',

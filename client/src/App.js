@@ -10,9 +10,10 @@ import Profile from './components/pages/Profile';
 import Register from './components/pages/Register';
 import CreatePost from './components/pages/CreatePost';
 import UserProfile from './components/pages/UserProfile';
+import FollowingPosts from './components/pages/FollowingPosts';
+import AllPosts from './components/pages/AllPosts';
 import { reducer, initialState } from './reducers/userReducer';
 
-// import SubscribedUserPosts from './components/pages/SubscribesUserPosts';
 // import Reset from './components/pages/Reset';
 // import NewPassword from './components/pages/Newpassword';
 export const UserContext = createContext();
@@ -42,16 +43,16 @@ const Routing = () => {
 			<Route exact path="/profile">
 				<Profile />
 			</Route>
-			<Route path="/create">
+			<Route path="/new">
 				<CreatePost />
 			</Route>
 			<Route path="/profile/:profileId">
 				<UserProfile />
 			</Route>
-			{/* <Route path="/myfollowingpost">
-				<SubscribedUserPosts />
+			<Route path="/following">
+				<FollowingPosts />
 			</Route>
-			<Route exact path="/reset">
+			{/*	<Route exact path="/reset">
 				<Reset />
 			</Route>
 			<Route path="/reset/:token">

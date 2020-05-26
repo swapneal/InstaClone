@@ -6,6 +6,7 @@ import '../styles/profile.css';
 
 const UserProfile = () => {
 	const [userprofile, setUserprofile] = useState(null);
+	const [showfollow, setShowFollow] = useState(true);
 	const { state, dispatch } = useContext(UserContext);
 	const { profileId } = useParams();
 
@@ -17,12 +18,81 @@ const UserProfile = () => {
 		})
 			.then((res) => res.json())
 			.then((result) => {
-				console.log('User Profile ==>  ', result);
 				setUserprofile(result);
 			})
 			.catch((err) => console.log(`Error in Profile loading ${err}`))
 			.catch((err) => console.log(`Error in Profile loading ${err}`));
 	}, []);
+
+	const followUser = () => {
+		fetch('/follow', {
+			method: 'put',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token'),
+			},
+			body: JSON.stringify({
+				followId: profileId,
+			}),
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				dispatch({
+					type: 'UPDATE',
+					payload: {
+						following: data.following,
+						followers: data.followers,
+					},
+				});
+				localStorage.setItem('user', JSON.stringify(data));
+				setUserprofile((prevState) => {
+					return {
+						...prevState,
+						payload: {
+							...prevState.payload,
+							followers: [...prevState.payload.followers, data.id],
+						},
+					};
+				});
+				setShowFollow(false);
+			});
+	};
+
+	const unfollowUser = () => {
+		fetch('/unfollow', {
+			method: 'put',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token'),
+			},
+			body: JSON.stringify({
+				unfollowId: profileId,
+			}),
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				dispatch({
+					type: 'UPDATE',
+					payload: {
+						following: data.following,
+						followers: data.followers,
+					},
+				});
+				localStorage.setItem('user', JSON.stringify(data));
+				setUserprofile((prevState) => {
+					const newFollower = prevState.payload.followers.filter((item) => item != data._id);
+					return {
+						...prevState,
+						payload: {
+							...prevState.payload,
+							followers: newFollower,
+						},
+					};
+				});
+				setShowFollow(true);
+			});
+	};
+
 	return (
 		<div style={{ maxWidth: '550px', margin: '0px auto' }}>
 			{userprofile === null ? (
@@ -55,10 +125,32 @@ const UserProfile = () => {
 										{userprofile.posts.length} post{userprofile.posts.length === 1 ? '' : 's'}
 									</h6>
 									<h6>
-										{userprofile ? userprofile.payload.followers.length : '0'} follower{userprofile.payload.followers.length === 1 ? '' : 's'}
+										{userprofile ? userprofile.payload.followers.length : '0'} follower
+										{userprofile.payload.followers.length === 1 ? '' : 's'}
 									</h6>
 									<h6>{userprofile ? userprofile.payload.following.length : '0'} following</h6>
 								</div>
+								{showfollow ? (
+									<button
+										style={{
+											margin: '10px',
+										}}
+										className="btn waves-effect waves-light #64b5f6 blue darken-1"
+										onClick={() => followUser()}
+									>
+										Follow
+									</button>
+								) : (
+									<button
+										style={{
+											margin: '10px',
+										}}
+										className="btn waves-effect waves-light #64b5f6 blue darken-1"
+										onClick={() => unfollowUser()}
+									>
+										Unfollow
+									</button>
+								)}
 							</div>
 						</div>
 					</div>

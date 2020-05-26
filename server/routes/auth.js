@@ -78,7 +78,7 @@ router.post('/login', (req, res) => {
 			.compare(password, savedUser.password)
 			.then((doMatch) => {
 				if (doMatch) {
-					const { _id, name, email } = savedUser;
+					const { _id, name, email, followers, following } = savedUser;
 					const token = jwt.sign({ id: _id }, JWT_SECRET);
 					res.status(200).json({
 						success: true,
@@ -88,6 +88,8 @@ router.post('/login', (req, res) => {
 								id: _id,
 								name,
 								email,
+								followers,
+								following,
 							},
 						},
 					});
