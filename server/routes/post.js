@@ -60,7 +60,7 @@ router.post('/posts', requireLogin, (req, res) => {
 //access Private
 router.get('/profile', requireLogin, (req, res) => {
 	Post.find({ postedBy: req.user.id })
-		.populate('postedBy', '_id name')
+		.populate('postedBy', '_id name followers following')
 		.then((posts) => {
 			res.status(200).json({
 				success: true,

@@ -55,8 +55,7 @@ const UserProfile = () => {
 										{userprofile.posts.length} post{userprofile.posts.length === 1 ? '' : 's'}
 									</h6>
 									<h6>
-										{userprofile ? userprofile.payload.followers.length : '0'} follower
-										{userprofile.payload.followers.length === 1 ? '' : 's'}
+										{userprofile ? userprofile.payload.followers.length : '0'} follower{userprofile.payload.followers.length === 1 ? '' : 's'}
 									</h6>
 									<h6>{userprofile ? userprofile.payload.following.length : '0'} following</h6>
 								</div>
