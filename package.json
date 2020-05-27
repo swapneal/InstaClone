@@ -3,9 +3,12 @@
 	"version": "1.0.0",
 	"description": "",
 	"main": "server.js",
+	"homepage": "http://swapneal.github.io/InstaClone",
 	"scripts": {
 		"start": "node server.js",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d build"
 	},
 	"author": "Swapnil Ranjit",
 	"license": "MIT",
@@ -15,5 +18,8 @@
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^5.9.14",
 		"nodemon": "^2.0.4"
+	},
+	"devDependencies": {
+		"gh-pages": "^2.2.0"
 	}
 }
