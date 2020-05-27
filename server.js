@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-const PORT = 5001;
+const PORT = process.env.PORT || 5001;
 
 const { MONGODB_URI } = require('./config/keys');
 
@@ -13,6 +13,14 @@ require('./models/post');
 const authRoute = require('./routes/auth');
 const postRoute = require('./routes/post');
 const userRoute = require('./routes/user');
+
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('client/build'));
+	const path = require('path');
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	});
+}
 
 const connectDB = async () => {
 	try {
