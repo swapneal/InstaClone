@@ -1,12 +1,11 @@
 {
 	"name": "server",
 	"version": "1.0.0",
-	"description": "Backend for Instragram Clone",
+	"description": "",
 	"main": "server.js",
 	"scripts": {
 		"start": "node server.js",
-		"server": "nodemon server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
 	},
 	"author": "Swapnil Ranjit",
 	"license": "MIT",
