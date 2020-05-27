@@ -45,7 +45,7 @@ const Login = () => {
 	return (
 		<div className="mycard ">
 			<div className="card auth-card input-field #e3f2fd blue lighten-5">
-				<h2>Instaclone</h2>
+				<h2>MeroInsta</h2>
 				<input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
 				<input
 					type="password"

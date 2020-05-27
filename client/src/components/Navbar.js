@@ -74,12 +74,12 @@ const NavBar = () => {
 	// 			setUserDetails(results.user);
 	// 		});
 	// };
-	
+
 	return (
 		<nav>
 			<div className="nav-wrapper #bbdefb blue lighten-4">
 				<Link to={state ? '/' : '/login'} className="brand-logo left">
-					Instaclone{' '}
+					MeroInsta{' '}
 				</Link>
 				<ul id="nav-mobile" className="right">
 					{renderList()}
