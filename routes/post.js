@@ -12,7 +12,7 @@ const requireLogin = require('../middleware/requireLogin');
 // @access  Public
 router.get('/all', requireLogin, (req, res) => {
 	Post.find()
-		.populate('postedBy', '_id name')
+		.populate('postedBy', '_id name dp')
 		.populate('comments.postedBy', '_id name')
 		.then((posts) => {
 			return res.status(200).json({
@@ -30,7 +30,7 @@ router.get('/all', requireLogin, (req, res) => {
 // @access  Private
 router.get('/followingposts', requireLogin, (req, res) => {
 	Post.find({ postedBy: { $in: req.user.following } })
-		.populate('postedBy', '_id name')
+		.populate('postedBy', '_id name dp')
 		.populate('comments.postedBy', '_id name')
 		.then((posts) => {
 			return res.status(200).json({
@@ -78,7 +78,7 @@ router.post('/newpost', requireLogin, (req, res) => {
 //access Private
 router.get('/profile', requireLogin, (req, res) => {
 	Post.find({ postedBy: req.user.id })
-		.populate('postedBy', '_id name followers following')
+		.populate('postedBy', '_id name followers following dp')
 		.then((posts) => {
 			res.status(200).json({
 				success: true,
@@ -100,7 +100,7 @@ router.put('/like', requireLogin, (req, res) => {
 		},
 		{ new: true }
 	)
-		.populate('postedBy', '_id name')
+		.populate('postedBy', '_id name dp')
 		.exec((err, result) => {
 			if (err) {
 				return res.status(422).json({
@@ -121,7 +121,7 @@ router.put('/unlike', requireLogin, (req, res) => {
 		},
 		{ new: true }
 	)
-		.populate('postedBy', '_id name')
+		.populate('postedBy', '_id name dp')
 		.exec((err, result) => {
 			if (err) {
 				return res.status(422).json({
@@ -148,7 +148,7 @@ router.put('/comment', requireLogin, (req, res) => {
 		},
 		{ new: true }
 	)
-		.populate('postedBy', '_id name')
+		.populate('postedBy', '_id name dp')
 		.populate('comments.postedBy', '_id name')
 		.exec((err, result) => {
 			if (err) {

@@ -13,7 +13,7 @@ const User = mongoose.model('User');
 //@description Registering a user
 //access Public
 router.post('/register', (req, res) => {
-	const { name, email, password } = req.body;
+	const { name, email, password, dp } = req.body;
 
 	if (!email || !password || !name) {
 		return res.status(422).json({
@@ -35,6 +35,7 @@ router.post('/register', (req, res) => {
 					name,
 					email,
 					password: hashedPassword,
+					dp,
 				});
 				user.save()
 					.then((user) => {
@@ -78,7 +79,7 @@ router.post('/login', (req, res) => {
 			.compare(password, savedUser.password)
 			.then((doMatch) => {
 				if (doMatch) {
-					const { _id, name, email, followers, following } = savedUser;
+					const { _id, name, email, followers, following, dp } = savedUser;
 					const token = jwt.sign({ id: _id }, JWT_SECRET);
 					res.status(200).json({
 						success: true,
@@ -90,6 +91,7 @@ router.post('/login', (req, res) => {
 								email,
 								followers,
 								following,
+								dp,
 							},
 						},
 					});

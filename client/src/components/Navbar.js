@@ -2,15 +2,18 @@ import React, { useContext, useRef, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { UserContext } from '../App';
 //import M from 'materialize-css';
+
 const NavBar = () => {
 	// const searchModal = useRef(null);
 	// const [search, setSearch] = useState('');
 	//	const [userDetails, setUserDetails] = useState([]);
 	const { state, dispatch } = useContext(UserContext);
 	const history = useHistory();
+
 	// useEffect(() => {
 	// 	M.Modal.init(searchModal.current);
 	// }, []);
+
 	const renderList = () => {
 		if (state) {
 			return [
@@ -33,7 +36,9 @@ const NavBar = () => {
 						className="btn-small #ff5252 red accent-2 logout"
 						onClick={() => {
 							localStorage.clear();
-							dispatch({ type: 'CLEAR' });
+							dispatch({
+								type: 'CLEAR',
+							});
 							history.push('/login');
 						}}
 					>
@@ -69,6 +74,7 @@ const NavBar = () => {
 	// 			setUserDetails(results.user);
 	// 		});
 	// };
+	
 	return (
 		<nav>
 			<div className="nav-wrapper #bbdefb blue lighten-4">

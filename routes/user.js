@@ -81,4 +81,20 @@ router.put('/unfollow', requireLogin, (req, res) => {
 	);
 });
 
+router.put('/updateDP', requireLogin, (req, res) => {
+	User.findByIdAndUpdate(
+		req.user.id,
+		{
+			$set: { dp: req.body.dp },
+		},
+		{ new: true },
+		(err, result) => {
+			if (err) {
+				return res.status(422).json({ error: `Error occured in update DP model ==> ${err}` });
+			}
+			res.json(result);
+		}
+	);
+});
+
 module.exports = router;

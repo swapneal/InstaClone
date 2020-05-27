@@ -151,10 +151,24 @@ const Home = () => {
 								<Link
 									to={item.postedBy._id !== state.id ? `/profile/${item.postedBy._id}` : `/profile`}
 								>
+									<img
+										src={item.postedBy.dp}
+										style={{
+											width: '25px',
+											height: '25px',
+											borderRadius: '8px',
+											marginTop: '10px',
+										}}
+										alt="profile pic"
+									/>{' '}
 									{item.postedBy.name}
 								</Link>{' '}
 								{item.postedBy._id === state.id && (
-									<i className="material-icons right red-text" onClick={() => deletePost(item._id)}>
+									<i
+										className="material-icons right red-text"
+										style={{ marginTop: '10px' }}
+										onClick={() => deletePost(item._id)}
+									>
 										delete
 									</i>
 								)}

@@ -14,10 +14,10 @@ export const reducer = (state, action) => {
 			following: action.payload.following,
 		};
 	}
-	if (action.type === 'UPDATEPIC') {
+	if (action.type === 'UPDATE_DP') {
 		return {
 			...state,
-			pic: action.payload,
+			dp: action.payload,
 		};
 	}
 	return state;

@@ -6,9 +6,10 @@ import '../styles/profile.css';
 
 const UserProfile = () => {
 	const [userprofile, setUserprofile] = useState(null);
-	const [showfollow, setShowFollow] = useState(true);
 	const { state, dispatch } = useContext(UserContext);
 	const { profileId } = useParams();
+
+	const [showfollow, setShowfollow] = useState(state ? !state.following.includes(profileId) : true);
 
 	useEffect(() => {
 		fetch(`/profile/${profileId}`, {
@@ -54,7 +55,7 @@ const UserProfile = () => {
 						},
 					};
 				});
-				setShowFollow(false);
+				setShowfollow(false);
 			});
 	};
 
@@ -80,7 +81,7 @@ const UserProfile = () => {
 				});
 				localStorage.setItem('user', JSON.stringify(data));
 				setUserprofile((prevState) => {
-					const newFollower = prevState.payload.followers.filter((item) => item != data._id);
+					const newFollower = prevState.payload.followers.filter((item) => item !== data._id);
 					return {
 						...prevState,
 						payload: {
@@ -89,7 +90,8 @@ const UserProfile = () => {
 						},
 					};
 				});
-				setShowFollow(true);
+				setShowfollow(true);
+				window.location.reload();
 			});
 	};
 
@@ -114,12 +116,35 @@ const UserProfile = () => {
 							<div>
 								<img
 									style={{ width: '160px', height: '160px', borderRadius: '80px' }}
-									src={state ? state.pic : 'loading'}
+									src={state ? state.dp : 'loading'}
+									alt="post-pic"
 								/>
 							</div>
 							<div>
-								<h4>{userprofile ? userprofile.payload.name : 'loading'}</h4>
-								<h5>{userprofile ? userprofile.payload.email : 'loading'}</h5>
+								<h4>
+									{userprofile ? userprofile.payload.name : 'loading'}{' '}
+									{showfollow ? (
+										<button
+											style={{
+												margin: '10px',
+											}}
+											className="btn waves-effect waves-light #64b5f6 blue darken-1"
+											onClick={() => followUser()}
+										>
+											Follow
+										</button>
+									) : (
+										<button
+											style={{
+												margin: '10px',
+											}}
+											className="btn waves-effect waves-light #64b5f6 blue darken-1"
+											onClick={() => unfollowUser()}
+										>
+											Unfollow
+										</button>
+									)}
+								</h4>
 								<div className="profile-info">
 									<h6>
 										{userprofile.posts.length} post{userprofile.posts.length === 1 ? '' : 's'}
@@ -130,27 +155,6 @@ const UserProfile = () => {
 									</h6>
 									<h6>{userprofile ? userprofile.payload.following.length : '0'} following</h6>
 								</div>
-								{showfollow ? (
-									<button
-										style={{
-											margin: '10px',
-										}}
-										className="btn waves-effect waves-light #64b5f6 blue darken-1"
-										onClick={() => followUser()}
-									>
-										Follow
-									</button>
-								) : (
-									<button
-										style={{
-											margin: '10px',
-										}}
-										className="btn waves-effect waves-light #64b5f6 blue darken-1"
-										onClick={() => unfollowUser()}
-									>
-										Unfollow
-									</button>
-								)}
 							</div>
 						</div>
 					</div>

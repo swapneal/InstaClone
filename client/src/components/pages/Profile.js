@@ -6,7 +6,7 @@ import '../styles/profile.css';
 const Profile = () => {
 	const [pics, setPics] = useState([]);
 	const { state, dispatch } = useContext(UserContext);
-	//	const [image, setImage] = useState('');
+	const [dp, setDp] = useState('');
 	useEffect(() => {
 		fetch('/profile', {
 			headers: {
@@ -20,43 +20,52 @@ const Profile = () => {
 			.catch((err) => console.log(`Error in Profile loading ${err}`))
 			.catch((err) => console.log(`Error in Profile loading ${err}`));
 	}, []);
-	// useEffect(() => {
-	//   if (image) {
-	//     const data = new FormData()
-	//     data.append("file", image)
-	//     data.append("upload_preset", "instaclone")
-	//     data.append("cloud_name", "swapneal")
-	//     fetch("https://api.cloudinary.com/v1_1/swapneal/image/upload", {
-	//       method: "post",
-	//       body: data
-	//     })
-	//       .then(res => res.json())
-	//       .then(data => {
-	//         fetch('/updatepic', {
-	//           method: "put",
-	//           headers: {
-	//             "Content-Type": "application/json",
-	//             "Authorization": "Bearer " + localStorage.getItem("jwt")
-	//           },
-	//           body: JSON.stringify({
-	//             pic: data.url
-	//           })
-	//         }).then(res => res.json())
-	//           .then(result => {
-	//             localStorage.setItem("user", JSON.stringify({ ...state, pic: result.pic }))
-	//             dispatch({ type: "UPDATEPIC", payload: result.pic })
+	useEffect(() => {
+		if (dp) {
+			const data = new FormData();
+			data.append('file', dp);
+			data.append('upload_preset', 'instaclone');
+			data.append('cloud_name', 'swapneal');
+			fetch('https://api.cloudinary.com/v1_1/swapneal/image/upload', {
+				method: 'post',
+				body: data,
+			})
+				.then((res) => res.json())
+				.then((data) => {
+					fetch('/updateDP', {
+						method: 'put',
+						headers: {
+							'Content-Type': 'application/json',
+							Authorization: 'Bearer ' + localStorage.getItem('token'),
+						},
+						body: JSON.stringify({
+							dp: data.url,
+						}),
+					})
+						.then((res) => res.json())
+						.then((result) => {
+							localStorage.setItem(
+								'user',
+								JSON.stringify({
+									...state,
+									dp: result.dp,
+								})
+							);
+							dispatch({
+								type: 'UPDATE_DP',
+								payload: result.dp,
+							});
+						});
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	}, [dp]);
 
-	//           })
-
-	//       })
-	//       .catch(err => {
-	//         console.log(err)
-	//       })
-	//   }
-	// }, [image])
-	// const updatePhoto = (file) => {
-	// 	setImage(file);
-	// };
+	const updateDP = (file) => {
+		setDp(file);
+	};
 	return (
 		<div style={{ maxWidth: '550px', margin: '0px auto' }}>
 			{state === null ? (
@@ -78,7 +87,8 @@ const Profile = () => {
 							<div>
 								<img
 									style={{ width: '160px', height: '160px', borderRadius: '80px' }}
-									src={state ? state.pic : 'loading'}
+									src={state ? state.dp : 'loading'}
+									alt="post-pic"
 								/>
 							</div>
 							<div>
@@ -99,13 +109,8 @@ const Profile = () => {
 
 						<div className="file-field input-field" style={{ margin: '10px' }}>
 							<div className="btn #64b5f6 blue darken-1">
-								<i
-									className="material-icons small
-						"
-								>
-									add_a_photo
-								</i>
-								{/* <input type="file" onChange={(e) => updatePhoto(e.target.files[0])} /> */}
+								<i className="material-icons small">add_a_photo</i>
+								<input type="file" onChange={(e) => updateDP(e.target.files[0])} />
 							</div>
 							<div className="file-path-wrapper">
 								<input className="file-path validate" type="text" />
