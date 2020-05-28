@@ -2,6 +2,7 @@ import React, { useEffect, createContext, useReducer, useContext } from 'react';
 import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
 
 import './App.css';
+import { reducer, initialState } from './reducers/userReducer';
 
 import NavBar from './components/Navbar';
 import Home from './components/pages/Home';
@@ -11,11 +12,9 @@ import Register from './components/pages/Register';
 import CreatePost from './components/pages/CreatePost';
 import UserProfile from './components/pages/UserProfile';
 import FollowingPosts from './components/pages/FollowingPosts';
-import AllPosts from './components/pages/AllPosts';
-import { reducer, initialState } from './reducers/userReducer';
+import ResetPassword from './components/pages/ResetPassword';
+import UpdatePassword from './components/pages/UpdatePassword';
 
-// import Reset from './components/pages/Reset';
-// import NewPassword from './components/pages/Newpassword';
 export const UserContext = createContext();
 
 const Routing = () => {
@@ -52,12 +51,12 @@ const Routing = () => {
 			<Route path="/following">
 				<FollowingPosts />
 			</Route>
-			{/*	<Route exact path="/reset">
-				<Reset />
+			<Route exact path="/reset">
+				<ResetPassword />
 			</Route>
 			<Route path="/reset/:token">
-				<NewPassword />
-			</Route> */}
+				<UpdatePassword />
+			</Route>
 		</Switch>
 	);
 };

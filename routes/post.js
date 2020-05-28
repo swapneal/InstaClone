@@ -14,6 +14,7 @@ router.get('/all', requireLogin, (req, res) => {
 	Post.find()
 		.populate('postedBy', '_id name dp')
 		.populate('comments.postedBy', '_id name')
+		.sort('-createdAt')
 		.then((posts) => {
 			return res.status(200).json({
 				success: true,
@@ -32,6 +33,7 @@ router.get('/followingposts', requireLogin, (req, res) => {
 	Post.find({ postedBy: { $in: req.user.following } })
 		.populate('postedBy', '_id name dp')
 		.populate('comments.postedBy', '_id name')
+		.sort('-createdAt')
 		.then((posts) => {
 			return res.status(200).json({
 				success: true,
@@ -79,6 +81,7 @@ router.post('/newpost', requireLogin, (req, res) => {
 router.get('/profile', requireLogin, (req, res) => {
 	Post.find({ postedBy: req.user.id })
 		.populate('postedBy', '_id name followers following dp')
+		.sort('-createdAt')
 		.then((posts) => {
 			res.status(200).json({
 				success: true,

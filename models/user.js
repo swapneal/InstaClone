@@ -16,6 +16,8 @@ const userSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	resetToken: String,
+	expireToken: Date,
 	dp: {
 		type: String,
 		default: 'https://res.cloudinary.com/swapneal/image/upload/v1590532280/avatar-1577909_640_lqnx0z.png',

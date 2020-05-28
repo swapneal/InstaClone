@@ -1,27 +1,27 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { UserContext } from '../App';
-//import M from 'materialize-css';
+import M from 'materialize-css';
 
 const NavBar = () => {
-	// const searchModal = useRef(null);
-	// const [search, setSearch] = useState('');
-	//	const [userDetails, setUserDetails] = useState([]);
+	const searchModal = useRef(null);
+	const [search, setSearch] = useState('');
+	const [userDetails, setUserDetails] = useState([]);
 	const { state, dispatch } = useContext(UserContext);
 	const history = useHistory();
 
-	// useEffect(() => {
-	// 	M.Modal.init(searchModal.current);
-	// }, []);
+	useEffect(() => {
+		M.Modal.init(searchModal.current);
+	}, []);
 
 	const renderList = () => {
 		if (state) {
 			return [
-				// <li key="1">
-				// 	<i data-target="modal1" className="large material-icons modal-trigger" style={{ color: 'black' }}>
-				// 		search
-				// 	</i>
-				// </li>,
+				<li key="1">
+					<i data-target="modal1" className="large material-icons modal-trigger" style={{ color: 'black' }}>
+						search
+					</i>
+				</li>,
 				<li key="2">
 					<Link to="/new">Create Post</Link>
 				</li>,
@@ -58,22 +58,22 @@ const NavBar = () => {
 		}
 	};
 
-	// const fetchUsers = (query) => {
-	// 	setSearch(query);
-	// 	fetch('/search-users', {
-	// 		method: 'post',
-	// 		headers: {
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 		body: JSON.stringify({
-	// 			query,
-	// 		}),
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((results) => {
-	// 			setUserDetails(results.user);
-	// 		});
-	// };
+	const fetchUsers = (query) => {
+		setSearch(query);
+		fetch('/searchusers', {
+			method: 'post',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				query,
+			}),
+		})
+			.then((res) => res.json())
+			.then((results) => {
+				setUserDetails(results.user);
+			});
+	};
 
 	return (
 		<nav>
@@ -85,11 +85,11 @@ const NavBar = () => {
 					{renderList()}
 				</ul>
 			</div>
-			{/* <div id="modal1" class="modal" ref={searchModal} style={{ color: 'black' }}>
+			<div id="modal1" className="modal" ref={searchModal} style={{ color: 'black' }}>
 				<div className="modal-content">
 					<input
 						type="text"
-						placeholder="search users"
+						placeholder="Search User"
 						value={search}
 						onChange={(e) => fetchUsers(e.target.value)}
 					/>
@@ -97,13 +97,25 @@ const NavBar = () => {
 						{userDetails.map((item) => {
 							return (
 								<Link
-									to={item._id !== state._id ? '/profile/' + item._id : '/profile'}
+									to={item._id !== state.id ? `/profile/${item._id}` : '/profile'}
 									onClick={() => {
 										M.Modal.getInstance(searchModal.current).close();
 										setSearch('');
 									}}
 								>
-									<li className="collection-item">{item.email}</li>
+									<li className="collection-item">
+										<img
+											src={item.dp}
+											style={{
+												width: '25px',
+												height: '25px',
+												borderRadius: '8px',
+												marginTop: '10px',
+											}}
+											alt="profile pic"
+										/>{' '}
+										{item.name}
+									</li>
 								</Link>
 							);
 						})}
@@ -114,7 +126,7 @@ const NavBar = () => {
 						close
 					</button>
 				</div>
-			</div> */}
+			</div>
 		</nav>
 	);
 };
