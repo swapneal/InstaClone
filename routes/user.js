@@ -14,7 +14,7 @@ router.get('/profile/:id', requireLogin, (req, res) => {
     .select('-password')
     .then(user => {
       Post.find({ postedBy: req.params.id })
-        .populate('postedBy', '_id name')
+        .populate('postedBy', '_id name dp')
         .exec((err, posts) => {
           if (err) {
             return res
